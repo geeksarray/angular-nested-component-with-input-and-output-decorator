@@ -1,27 +1,47 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,SimpleChanges, OnChanges, DoCheck, 
+    AfterContentInit,  AfterContentChecked  } from '@angular/core';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
-export class ProductsComponent implements OnInit {
+
+export class ProductsComponent implements OnInit, OnChanges, DoCheck,AfterContentInit, AfterContentChecked {
 
   constructor() { }
 
   ngOnInit(): void {
+    console.log("2. ngOnInit called from parent.");
   }
+
+  ngOnChanges(changes: SimpleChanges) : void{
+    for (const propName in changes) {
+      const chng = changes[propName];
+      const cur  = JSON.stringify(chng.currentValue);
+      const prev = JSON.stringify(chng.previousValue);
+      console.log(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
+    }
+    console.log("1. ngOnChanges called from parent.");
+ }
+  
+ ngDoCheck(): void {
+  console.log("3. doCheck is called from parent.") ;
+ }
+
+ ngAfterContentInit(): void{
+  console.log("4. afterCcontent init from parent.");
+ }
+
+ ngAfterContentChecked(): void{
+  console.log("5. ngAfterContentChecked from parent.");
+ }
 
   messageFromNestedComponent = '';       
    onGetLocalSalesReport(message:string) : void {           
       this.messageFromNestedComponent = 'Product Details Report: ' + message; 
       this.products[0].AvilableQty = 1909;      
  }    
-
- EditProduct()
- {
-   alert('asde');
- }
   
   products : any[] =[ {  
       "ProductID" :1,  

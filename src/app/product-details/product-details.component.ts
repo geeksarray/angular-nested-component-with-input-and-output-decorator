@@ -1,11 +1,12 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges, 
+      DoCheck, AfterContentInit, AfterContentChecked  } from '@angular/core';
 
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.css']
 })
-export class ProductDetailsComponent implements OnInit, OnChanges {
+export class ProductDetailsComponent implements OnInit, OnChanges, DoCheck,AfterContentInit, AfterContentChecked  {
 
   constructor() { }
   @Input() SalesRating:number = 3.5;  
@@ -13,13 +14,27 @@ export class ProductDetailsComponent implements OnInit, OnChanges {
   _salesRating: string = 'Default'; 
 
   ngOnInit(): void {
+    this._salesRating = 'Default';
+    console.log("2. ngOnInit called from child.");
   }
+
+  ngDoCheck(): void {
+    console.log("3. do check is called from child .");
+  }
+
+  ngAfterContentInit(): void{
+    console.log("4 .after content init from child");
+  }
+
+  ngAfterContentChecked(): void{
+    console.log("5. ngAfterContentChecked from child.");
+   }
 
   onClick():void{  
     this.GetLocalSales.emit(`The local sales report for this product is ${this._salesRating}`);  
-} 
+  } 
 
-  ngOnChanges() : void{  
+  ngOnChanges(changes: SimpleChanges) : void{  
     if(this.SalesRating == 3.5){  
         this._salesRating = 'Good';  
     } else if (this.SalesRating == 4.0){  
@@ -29,8 +44,14 @@ export class ProductDetailsComponent implements OnInit, OnChanges {
     } else {  
         this._salesRating = 'Undefined'  
     }
- }  
 
-  
+    for (const propName in changes) {
+      const chng = changes[propName];
+      const cur  = JSON.stringify(chng.currentValue);
+      const prev = JSON.stringify(chng.previousValue);
+      //console.log(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
+    }
 
+    console.log("1. ngOnChanges called from child.");
+ }
 }
