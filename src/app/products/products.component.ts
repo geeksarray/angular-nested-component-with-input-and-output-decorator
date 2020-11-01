@@ -1,5 +1,5 @@
 import { Component, OnInit,SimpleChanges, OnChanges, DoCheck, 
-    AfterContentInit,  AfterContentChecked  } from '@angular/core';
+    AfterContentInit,  AfterContentChecked, AfterViewInit  } from '@angular/core';
 
 @Component({
   selector: 'app-products',
@@ -7,13 +7,10 @@ import { Component, OnInit,SimpleChanges, OnChanges, DoCheck,
   styleUrls: ['./products.component.css']
 })
 
-export class ProductsComponent implements OnInit, OnChanges, DoCheck,AfterContentInit, AfterContentChecked {
+export class ProductsComponent implements OnInit, OnChanges, DoCheck,AfterContentInit,
+  AfterContentChecked, AfterViewInit {
 
   constructor() { }
-
-  ngOnInit(): void {
-    console.log("2. ngOnInit called from parent.");
-  }
 
   ngOnChanges(changes: SimpleChanges) : void{
     for (const propName in changes) {
@@ -24,6 +21,10 @@ export class ProductsComponent implements OnInit, OnChanges, DoCheck,AfterConten
     }
     console.log("1. ngOnChanges called from parent.");
  }
+
+ ngOnInit(): void {
+  console.log("2. ngOnInit called from parent.");
+}
   
  ngDoCheck(): void {
   console.log("3. doCheck is called from parent.") ;
@@ -35,6 +36,10 @@ export class ProductsComponent implements OnInit, OnChanges, DoCheck,AfterConten
 
  ngAfterContentChecked(): void{
   console.log("5. ngAfterContentChecked from parent.");
+ }
+
+ ngAfterViewInit(): void{
+  console.log("6. ngAfterViewInit from parent.");
  }
 
   messageFromNestedComponent = '';       

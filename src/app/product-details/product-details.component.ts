@@ -1,12 +1,13 @@
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges, 
-      DoCheck, AfterContentInit, AfterContentChecked  } from '@angular/core';
+      DoCheck, AfterContentInit, AfterContentChecked, AfterViewInit  } from '@angular/core';
 
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.css']
 })
-export class ProductDetailsComponent implements OnInit, OnChanges, DoCheck,AfterContentInit, AfterContentChecked  {
+export class ProductDetailsComponent implements OnInit, OnChanges, DoCheck,AfterContentInit, 
+    AfterContentChecked, AfterViewInit  {
 
   constructor() { }
   @Input() SalesRating:number = 3.5;  
@@ -26,8 +27,12 @@ export class ProductDetailsComponent implements OnInit, OnChanges, DoCheck,After
     console.log("4 .after content init from child");
   }
 
-  ngAfterContentChecked(): void{
+   ngAfterContentChecked(): void{
     console.log("5. ngAfterContentChecked from child.");
+   }
+
+   ngAfterViewInit(): void{
+    console.log("6. ngAfterViewInit from child.");
    }
 
   onClick():void{  
@@ -51,7 +56,6 @@ export class ProductDetailsComponent implements OnInit, OnChanges, DoCheck,After
       const prev = JSON.stringify(chng.previousValue);
       //console.log(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
     }
-
     console.log("1. ngOnChanges called from child.");
  }
 }
